@@ -1,0 +1,36 @@
+{
+    "name": "liz/easy-doc-bundle",
+    "type": "symfony-bundle",
+    "description": "Symfony application documentation generator",
+    "keywords": ["documentation", "generator", "project", "doc"],
+    "homepage": "https://github.com/l396635210/easy-doc-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Liz"
+        }
+    ],
+    "require": {
+        "php"                           : ">=7.1",
+        "symfony/dependency-injection"  : "~4.0",
+        "symfony/framework-bundle"      : "~4.0",
+        "symfony/twig-bridge"           : "~4.0",
+        "symfony/twig-bundle"           : "~4.0",
+        "twig/extensions"               : "~1.0",
+        "twig/twig"                     : "~1.14,>=1.14.2|~2.0"
+    },
+    "require-dev": {
+    },
+    "config": {
+        "platform": {
+            "php": "7.2.0"
+        },
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": { "Liz\\Bundle\\EasyDocBundle\\": "src/" },
+        "exclude-from-classmap": []
+    },
+    "autoload-dev": {
+    }
+}

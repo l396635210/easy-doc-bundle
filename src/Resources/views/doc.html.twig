@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ project_name }} documentation</title>
+    <style>{{ source('@EasyDoc/assets/all.css') }}</style>
+    <style>
+        body {
+            display: flex;
+            font-size: 14px;
+            position: relative;
+        }
+
+        .nowrap { white-space: pre; }
+        .text-muted { color: #999 !important; }
+
+        .navbar-top {
+            background-color: #444;
+        }
+        .navbar-brand {
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0;
+            padding: .15rem 0;
+        }
+        aside {
+            background-color: #f4f4f4;
+            border-right: 1px solid #eee;
+            overflow-x: hidden;
+            overflow-y: auto;
+            flex: 0 0 180px;
+        }
+        aside .navbar {
+            margin-top: 15px;
+            padding: 0;
+            position: fixed;
+            top: 48px;
+            width: 180px;
+        }
+        aside .nav-link {
+            color: #292b2c;
+        }
+        aside .nav-link:hover { background: rgba(0, 0, 0, 0.05); }
+        aside .nav-link.active { font-weight: bold; background: rgba(0, 0, 0, 0.1); }
+        article { margin-left: 30px; margin-right: 15px; }
+        article section { margin-bottom: 1280px; padding-top: 51px; }
+        footer {
+            position: absolute;
+            bottom: 15px;
+            color: #bbb;
+            font-size: 10px;
+            left: 15px;
+            width: 160px;
+        }
+
+        h1.page-title {
+            color: #444;
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 15px;
+            margin-top: 15px;
+        }
+
+        ul.unstyled { list-style: none; padding-left: 0; }
+
+        .table th { color: #444; }
+        .table thead th,
+        .table td, .table th {
+            border: 1px solid #ddd;
+        }
+        .table thead th {
+            border-bottom-width: 2px;
+            background-color: #fafafa;
+        }
+        .table a + a { margin-left: 1em; }
+        .table + .table { margin-top: 2rem; }
+        .table tbody th { vertical-align: top; width: 15%; }
+        .table h3 { font-size: 1rem; font-weight: 500; margin: 0; }
+        .markdown-body table tbody td, .code { font-family: Ubuntu Mono, Consolas, Inconsolata, Monaco, monospace; word-break: break-all; }
+        .table tbody td span + b { margin-left: 1rem; }
+        .table tbody td ul + b { display: inline-block; margin-top: 1rem; }
+
+        .list-group-header {
+            background-color: #fafafa;
+            font-weight: bold;
+        }
+
+        .blankslate {
+            border: 2px dashed #eee;
+            border-radius: 4px;
+            color: #aaa;
+            margin-top: 30px;
+            padding: 90px;
+            text-align: center;
+            width: 100%;
+        }
+        .blankslate h3 { font-size: 1.25rem; }
+
+        .card-deck { margin-top: 30px; }
+        .card { max-width: 140px; text-align: center;}
+        .card-title {
+            color: #555;
+            font-size: 1.75rem;
+            margin-bottom: .25rem;
+        }
+        .card-score { max-width: 310px; }
+        .card-score .card-title { font-size: 3.5rem; }
+        .card-score .card-text { font-size: 1rem; }
+        .card-score .card-text a { font-size: .8rem; }
+
+        .badge {
+            background: #eee;
+            border-radius: 2px;
+            color: #777;
+            display: inline-block;
+            font-weight: bold;
+            padding: 4px;
+        }
+        .badge-outline { background-color: #fff; border: 2px solid #eee; }
+        .badge-prod { background-color: #709c8d; color: #FFF; }
+        .badge-get, .badge-head, .badge-options { background-color: #709c8d; color: #FFF; }
+        .badge-post, .badge-put, .badge-patch { background-color: #72809d; color: #FFF; }
+        .badge-delete { background-color: #9d7280; color: #FFF; }
+
+        .list-group-item { padding: .75rem; }
+        a.list-group-item:hover { background-color: #fff9ea; }
+        .list-group-header.list-group-item { border-bottom-width: 2px; padding: .5rem .75rem; }
+        .list-group .table { margin-bottom: 0; }
+        .list-group .table th { padding-left: .75rem; }
+        .list-group .table tr:last-child td,
+        .list-group .table tr:last-child th { border-bottom: 0; }
+
+        .list-group ul { list-style: none; padding-left: 0 }
+        .list-group li { margin: 0 0 .25rem; }
+        .list-group ul ul { list-style: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
+        .list-group td > ul, .list-group td > ul li:last-child ul { margin-bottom: 0; }
+
+        .tab-pane p { margin: 1rem 0; }
+
+        /* Routes panel */
+        .route .name { color: #292b2c; }
+        .route .path .badge:last-child { margin-right: 5px; }
+
+        /* Licenses panel */
+        .package .license { color: #292b2c; }
+        .package .badge { margin-right: 5px; min-width: 40px; }
+    </style>
+    <script>{{ source('@EasyDoc/assets/all.js') }}</script>
+</head>
+<body data-spy="scroll" data-target=".main-menu" data-offset="200">
+    <nav class="navbar navbar-top fixed-top">
+        <h1 class="navbar-brand">{{ project_name }}</h1>
+    </nav>
+
+    <aside>
+        <nav class="navbar navbar-default main-menu">
+            <ul class="nav flex-column">
+                <li class="nav-item"><a class="nav-link" href="#overview">Project Overview</a></li>
+                <li class="nav-item"><a class="nav-link" href="#project_docs">Project Docs</a></li>
+                <li class="nav-item"><a class="nav-link" href="#routes">Routes</a></li>
+                <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+                {# <li class="nav-item"><a class="nav-link" href="#events">Events</a></li> #}
+                {# <li class="nav-item"><a class="nav-link" href="#security">Security</a></li> #}
+                {# <li class="nav-item"><a class="nav-link" href="#translation">Internationalization</a></li> #}
+                {# <li class="nav-item"><a class="nav-link" href="#templates">Templates</a></li> #}
+                {# <li class="nav-item"><a class="nav-link" href="#doctrine">Doctrine Entities</a></li> #}
+                {# <li class="nav-item"><a class="nav-link" href="#configuration">Configuration</a></li> #}
+                <li class="nav-item"><a class="nav-link" href="#bundles">Bundles</a></li>
+                <li class="nav-item"><a class="nav-link" href="#licenses">Licenses</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <article>
+        <section id="overview">
+            <h1 class="page-title">Project Overview</h1>
+            {{ include('@EasyDoc/_overview.html.twig') }}
+        </section>
+
+        <section id="project_docs">
+            {{ include('@EasyDoc/_project_docs.html.twig') }}
+        </section>
+
+        <section id="routes">
+            {{ include('@EasyDoc/_routes.html.twig') }}
+        </section>
+
+        <section id="services">
+            {{ include('@EasyDoc/_services.html.twig') }}
+        </section>
+
+        <section id="events">
+            <h1 class="page-title">Events</h1>
+            {{ include('@EasyDoc/_unfinished_panel.html.twig') }}
+        </section>
+
+        <section id="security">
+            <h1 class="page-title">Security</h1>
+            {{ include('@EasyDoc/_unfinished_panel.html.twig') }}
+        </section>
+
+        <section id="translation">
+            <h1 class="page-title">Internationalization</h1>
+            {{ include('@EasyDoc/_unfinished_panel.html.twig') }}
+        </section>
+
+        <section id="templates">
+            <h1 class="page-title">Templates</h1>
+            {{ include('@EasyDoc/_unfinished_panel.html.twig') }}
+        </section>
+
+        <section id="doctrine">
+            <h1 class="page-title">Doctrine Entities</h1>
+            {{ include('@EasyDoc/_unfinished_panel.html.twig') }}
+        </section>
+
+        <section id="configuration">
+            <h1 class="page-title">Configuration</h1>
+            {{ include('@EasyDoc/_unfinished_panel.html.twig') }}
+        </section>
+
+        <section id="bundles">
+            {{ include('@EasyDoc/_bundles.html.twig') }}
+        </section>
+
+        <section id="licenses">
+            {{ include('@EasyDoc/_licenses.html.twig') }}
+        </section>
+    </article>
+
+    <footer>
+        Built with EasyDoc {{ easydoc_version }}
+        on {{ last_build_date|date }}
+    </footer>
+
+    <script>
+        $(function () {
+            anchors.add('.anchored');
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+</body>
+</html>
