@@ -8,7 +8,7 @@
             </div>
         </div>
         {% for className, doc in items %}
-            <a class="list-group-item flex-column align-items-start project-doc" data-toggle="collapse" href="#project-doc-{{ folder }}-{{ className }}">
+            <a class="list-group-item flex-column align-items-start project-doc" data-toggle="collapse" href="#project-doc-{{ folder | html_class_format }}-{{ className| html_class_format }}">
                 <div class="d-flex w-100 justify-content-between">
                     <div class="path">
                         <span style="color: #56db3a" class="badge badge-outline" data-toggle="tooltip" data-placement="top" title="{{ doc.description }}">{{ doc.className }}</span>
@@ -17,7 +17,7 @@
                 </div>
             </a>
 
-            <div class="collapse" id="project-doc-{{ folder }}-{{ className }}">
+            <div class="collapse" id="project-doc-{{ folder | html_class_format }}-{{ className | html_class_format }}">
                 <table class="table">
                     <tbody>
                     {% for docKey, docItem in doc %}
@@ -30,12 +30,12 @@
                             {% for methodName, methodDoc in docItem %}
                                 <tr>
                                     <th colspan="2">
-                                        <a data-toggle="collapse" href="#project-doc-{{ folder }}-{{ className }}-{{ methodName }}" >
+                                        <a data-toggle="collapse" href="#project-doc-{{ folder | html_class_format }}-{{ className | html_class_format }}-{{ methodName | html_class_format }}" >
                                             <h6 style="color: #b729d9">{{ doc.className }}::{{ methodName }}</h6>
                                         </a>
                                     </th>
                                 </tr>
-                                <tr class="collapse" id="project-doc-{{ folder }}-{{ className }}-{{ methodName }}">
+                                <tr class="collapse" id="project-doc-{{ folder | html_class_format }}-{{ className | html_class_format }}-{{ methodName | html_class_format }}">
                                     <td colspan="2">
                                         <table class="table-info">
                                             {% for methodDocKey, methodDocItem in methodDoc %}
@@ -75,19 +75,6 @@
                         </tr>
                         {% endif %}
                     {% endfor %}
-                    {#
-                    <tr>
-                        <th>Defaults</th> <td>
-                            <ul class="unstyled">
-                                {% for key, value in route.defaults %}
-                                    <li><b>{{ key }}</b>: {{ value }}</li>
-                                {% else %}
-                                    (none)
-                                {% endfor %}
-                            </ul>
-                        </td>
-                    </tr>
-                    #}
                     </tbody>
                 </table>
             </div>
@@ -101,5 +88,6 @@
 
 <h1 class="page-title">Project Documents</h1>
 
-<p>These are the routes defined by the application and third-party bundles.</p>
+<p>These are src/ folder class and methods</p>
+
 {{ macros.project_docs(project_docs) }}
