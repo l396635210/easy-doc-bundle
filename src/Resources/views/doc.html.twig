@@ -164,7 +164,7 @@
                 {# <li class="nav-item"><a class="nav-link" href="#security">Security</a></li> #}
                 {# <li class="nav-item"><a class="nav-link" href="#translation">Internationalization</a></li> #}
                 {# <li class="nav-item"><a class="nav-link" href="#templates">Templates</a></li> #}
-                {# <li class="nav-item"><a class="nav-link" href="#doctrine">Doctrine Entities</a></li> #}
+                <li class="nav-item"><a class="nav-link" href="#doctrine">Doctrine Entities</a></li>
                 {# <li class="nav-item"><a class="nav-link" href="#configuration">Configuration</a></li> #}
                 <li class="nav-item"><a class="nav-link" href="#bundles">Bundles</a></li>
                 <li class="nav-item"><a class="nav-link" href="#licenses">Licenses</a></li>
@@ -190,6 +190,11 @@
             {{ include('@EasyDoc/_services.html.twig') }}
         </section>
 
+        <section id="doctrine">
+            {{ include('@EasyDoc/_doctrine.html.twig') }}
+        </section>
+{#
+
         <section id="events">
             <h1 class="page-title">Events</h1>
             {{ include('@EasyDoc/_unfinished_panel.html.twig') }}
@@ -210,15 +215,12 @@
             {{ include('@EasyDoc/_unfinished_panel.html.twig') }}
         </section>
 
-        <section id="doctrine">
-            <h1 class="page-title">Doctrine Entities</h1>
-            {{ include('@EasyDoc/_unfinished_panel.html.twig') }}
-        </section>
 
         <section id="configuration">
             <h1 class="page-title">Configuration</h1>
             {{ include('@EasyDoc/_unfinished_panel.html.twig') }}
         </section>
+#}
 
         <section id="bundles">
             {{ include('@EasyDoc/_bundles.html.twig') }}

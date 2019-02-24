@@ -113,7 +113,7 @@ class DocCommand extends Command
             }
         }
 
-        return 'v1.0.0';
+        return 'v2.0';
     }
 
     private function getRoutes()
@@ -383,12 +383,16 @@ class DocCommand extends Command
          */
         # todo 获取Entity 内容
         $meta = $this->em->getMetadataFactory()->getAllMetadata();
+        $entities = [];
         foreach ($meta as $m){
-            dump($m->getName());
-            dump($m->table);
-            dump($m->customRepositoryClassName);
-            dump($m->fieldMappings);
-            dump($m->associationMappings);
+            $entity['name'] = $m->getName();
+            $entity['table'] = $m->getTableName();
+            $entity['repository'] = $m->customRepositoryClassName;
+            $entity['fieldMappings'] = $m->fieldMappings;
+            $entity['associationMappings'] = $m->associationMappings;
+            $entities[] = $entity;
         }
+
+        return $entities;
     }
 }

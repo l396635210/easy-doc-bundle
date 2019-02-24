@@ -1,0 +1,59 @@
+<h1 class="page-title">Doctrine Entities</h1>
+{% for entity in doctrine_entities %}
+    <table class="table" id="service-{{ entity.name | html_class_format }}">
+        <thead>
+        <tr>
+            <th colspan="2">
+                <h3 class="anchored" id="service-{{ entity.name | html_class_format }}">
+                    {{ entity.name }}
+                </h3>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>Repository</th>
+                <td>{{ entity.repository }}</td>
+            </tr>
+            <tr>
+                <th>Table</th>
+                <td>{{ entity.table }}</td>
+            </tr>
+            <tr>
+                <th>Field Mappings</th>
+                <td>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>fieldName</th>
+                                <th>type</th>
+                                <th>scale</th>
+                                <th>length</th>
+                                <th>unique</th>
+                                <th>nullable</th>
+                                <th>precision</th>
+                                <th>id</th>
+                                <th>columnName</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for field in entity.fieldMappings %}
+                            <tr>
+                                <td>{{ field.fieldName }}</td>
+                                <td>{{ field.type }}</td>
+                                <td>{{ field.scale }}</td>
+                                <td>{{ field.length }}</td>
+                                <td>{{ field.unique }}</td>
+                                <td>{{ field.nullable }}</td>
+                                <td>{{ field.precision }}</td>
+                                <td>{% if field.id is defined %}Yes{% else %}No{% endif %}</td>
+                                <td>{{ field.columnName }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{% endfor %}
