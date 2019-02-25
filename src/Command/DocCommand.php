@@ -381,19 +381,7 @@ class DocCommand extends Command
         /**
          * @var $meta ClassMetadataInfo[]
          */
-        # todo 获取Entity 内容
         $meta = $this->em->getMetadataFactory()->getAllMetadata();
-        $entities = [];
-        foreach ($meta as $m){
-            $entity['name'] = $m->getName();
-            $entity['table'] = $m->getTableName();
-            $entity['repository'] = $m->customRepositoryClassName;
-            $entity['fieldMappings'] = $m->fieldMappings;
-            $entity['associationMappings'] = $m->associationMappings;
-            dump($m->getName());
-            dump($m->associationMappings);
-            $entities[] = $entity;
-        }
 
         return $meta;
     }
