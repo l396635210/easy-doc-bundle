@@ -2,6 +2,8 @@
 
 namespace Liz\Bundle\EasyDocBundle\Command;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Symfony\Bundle\MakerBundle\Exception\RuntimeCommandException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Console\Command\Command;
@@ -46,7 +48,7 @@ class DocCommand extends Command
     private $docBlockReader;
 
     public function __construct(KernelInterface $kernel, Environment $twig,
-                                RouterInterface $router, ContainerInterface $container)
+                                RouterInterface $router, ContainerInterface $container, EntityManagerInterface $em)
     {
         parent::__construct();
         $this->kernel = $kernel;
@@ -54,6 +56,7 @@ class DocCommand extends Command
         $this->router = $router;
         $this->container = $container;
         $this->docBlockReader = \phpDocumentor\Reflection\DocBlockFactory::createInstance();
+        $this->em = $em;
     }
 
     protected function configure()
@@ -73,6 +76,7 @@ class DocCommand extends Command
         $params['bundles'] = $this->getBundles();
         $params['project_score'] = $this->getProjectScore($params);
         $params['project_docs'] = $this->getProjectDoc();
+        $params['doctrine_entities'] = $this->getDoctrineEntities();
         $params['last_build_date'] = new \DateTime();
 
         $docPath = $this->kernel->getCacheDir().'/doc.html';
@@ -109,7 +113,7 @@ class DocCommand extends Command
             }
         }
 
-        return 'v1.0.0';
+        return 'v2.0';
     }
 
     private function getRoutes()
@@ -314,7 +318,7 @@ class DocCommand extends Command
             foreach ($reflectionMethods as $reflectionMethod){
                 if($reflectionMethod->class == $reflection->getName()){
                     $folders[$folder][$reflection->getShortName()]['methods'][$reflectionMethod->getName()] =
-                        $this->appendMethodDocument($reflection, $reflectionMethod);
+                        $this->appendMethodDocument($reflectionMethod);
                 }
             }
         }
@@ -352,7 +356,7 @@ class DocCommand extends Command
         return array($reflection, $folders);
     }
 
-    private function appendMethodDocument(\ReflectionClass $class, \ReflectionMethod $reflectionMethod)
+    private function appendMethodDocument(\ReflectionMethod $reflectionMethod)
     {
 
         $methodDoc = [
@@ -370,5 +374,27 @@ class DocCommand extends Command
             }
         }
         return $methodDoc;
+    }
+
+    private function getDoctrineEntities()
+    {
+        /**
+         * @var $meta ClassMetadataInfo[]
+         */
+        # todo 获取Entity 内容
+        $meta = $this->em->getMetadataFactory()->getAllMetadata();
+        $entities = [];
+        foreach ($meta as $m){
+            $entity['name'] = $m->getName();
+            $entity['table'] = $m->getTableName();
+            $entity['repository'] = $m->customRepositoryClassName;
+            $entity['fieldMappings'] = $m->fieldMappings;
+            $entity['associationMappings'] = $m->associationMappings;
+            dump($m->getName());
+            dump($m->associationMappings);
+            $entities[] = $entity;
+        }
+
+        return $meta;
     }
 }

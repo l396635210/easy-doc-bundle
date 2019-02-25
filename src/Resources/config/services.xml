@@ -10,7 +10,11 @@
                 <argument id="Twig\Environment" type="service" />
                 <argument id="Symfony\Component\Routing\RouterInterface" type="service" />
                 <argument id="Symfony\Component\DependencyInjection\ContainerInterface" type="service" />
+                <argument id="Doctrine\ORM\EntityManagerInterface" type="service" />
                 <tag name="console.command" />
+            </service>
+            <service id="Liz\Bundle\EasyDocBundle\Twig\AppExtension">
+                <tag name="twig.extension" />
             </service>
         </services>
 </container>

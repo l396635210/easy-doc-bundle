@@ -1,0 +1,122 @@
+{% macro bool_text(field) %}
+    {% if field %}
+        <span style="color: lawngreen">Yes</span>
+    {% else %}
+        <span style="color: red">No</span>
+    {% endif %}
+{% endmacro %}
+
+{% import _self as macros %}
+<h1 class="page-title">Doctrine Entities</h1>
+{% for entity in doctrine_entities %}
+    <table class="table" id="service-{{ entity.name | html_class_format }}">
+        <thead>
+        <tr>
+            <th colspan="2">
+                <h3 class="anchored" id="service-{{ entity.name | html_class_format }}">
+                    {{ entity.name }}
+                </h3>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>Repository</th>
+                <td style="color: #b729d9">{{ entity.customRepositoryClassName }}</td>
+            </tr>
+            <tr>
+                <th>Table</th>
+                <td style="color: #56db3a">{{ entity.tableName }}</td>
+            </tr>
+            <tr>
+                <th>Field Mappings</th>
+                <td>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>fieldName</th>
+                                <th>type</th>
+                                <th>scale</th>
+                                <th>length</th>
+                                <th>unique</th>
+                                <th>nullable</th>
+                                <th>precision</th>
+                                <th>id</th>
+                                <th>columnName</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for field in entity.fieldMappings %}
+                            <tr>
+                                <td style="color: rgb(110, 53, 140)">{{ field.fieldName }}</td>
+                                <td>{{ field.type }}</td>
+                                <td>{{ field.scale }}</td>
+                                <td>{{ field.length ? field.length : '-' }}</td>
+                                <td>{{ macros.bool_text(field.unique is defined ? field.unique : '') }}</td>
+                                <td>{{ macros.bool_text(field.nullable is defined ? field.nullable : '') }}</td>
+                                <td>{{ field.precision }}</td>
+                                <td>{{ macros.bool_text(field.id is defined ? field.id : '') }}</td>
+                                <td>{{ field.columnName }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            {% if entity.associationMappings %}
+            <tr>
+                <th>Association Mappings</th>
+                <td>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>FieldName</th>
+                            <th>TargetEntity</th>
+                            <th>Association</th>
+                            <th>JoinColumns</th>
+                            <th>inversedBy</th>
+                            <th>cascade</th>
+                            <th>mappedBy</th>
+                            <th>isOwningSide</th>
+                            <th>orphanRemoval</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for field in entity.associationMappings %}
+                            <tr>
+                                <td style="color: rgb(110, 53, 140)">{{ field.fieldName }}</td>
+                                <td>{{ field.targetEntity }}</td>
+                                <td>{{ doctrineAssociationText(field.type) }}</td>
+                                <td class="text-center">
+                                    {% if entity.isSingleValuedAssociation(field.fieldName) %}
+                                    <ul class="unstyled">
+                                        {% for joinColumnItem in field.joinColumns %}
+                                            {% for key, value in joinColumnItem %}
+                                                {% if key == 'name' %}
+                                                <li><b>name</b>: {{ value }}</li>
+                                                {% endif %}
+                                                {% if key == 'referencedColumnName' %}
+                                                    <li><b>referenced</b>: {{ value }}</li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endfor %}
+                                    </ul>
+                                    {% else %}
+                                        --
+                                    {% endif %}
+                                </td>
+                                <td>{{ field.inversedBy }}</td>
+                                <td>{{ field.cascade | join(',') }}</td>
+                                <td>{{ field.mappedBy }}</td>
+                                <td>{{ macros.bool_text(field.isOwningSide) }}</td>
+                                <td>{{ field.orphanRemoval }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+{% endfor %}
