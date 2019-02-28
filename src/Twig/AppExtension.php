@@ -2,6 +2,7 @@
 
 namespace Liz\Bundle\EasyDocBundle\Twig;
 
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -28,12 +29,34 @@ class AppExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('env', [$this, 'doEnv']),
+            new TwigFunction('doctrineAssociationText', [$this, 'doctrineAssociationText']),
         ];
     }
 
-    public function doEnv($value)
+    public function doctrineAssociationText($value)
     {
-        return getenv(strtoupper($value));
+        switch ($value){
+            case ClassMetadataInfo::TO_ONE:
+                $text = 'To-One';
+                break;
+            case ClassMetadataInfo::TO_MANY:
+                $text = 'To-Many';
+                break;
+            case ClassMetadataInfo::MANY_TO_MANY:
+                $text = 'Many-To-Many';
+                break;
+            case ClassMetadataInfo::MANY_TO_ONE:
+                $text = 'Many-To-One';
+                break;
+            case ClassMetadataInfo::ONE_TO_MANY:
+                $text = 'One-To-Many';
+                break;
+            case ClassMetadataInfo::ONE_TO_ONE:
+                $text = 'One-To-One';
+                break;
+            default:
+                $text = 'None';
+        }
+        return $text;
     }
 }

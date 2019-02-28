@@ -1,6 +1,6 @@
 EasyDoc
 =======
-Thanks easycorp/easy-doc-bundle
+Thanks [easycorp/easy-doc-bundle](https://github.com/EasyCorp/easy-doc-bundle)
 This bundle generates the formal documentation for Symfony applications. This
 documentation is a HTML document that contains detailed information about every
 application element (routes, services, events, configuration, etc.)
@@ -23,33 +23,21 @@ Installation
 ### Step 1: Download the Bundle
 
 ```bash
-$ composer require --dev easycorp/easy-doc-bundle
+$ composer require --dev liz/easy-doc-bundle
 ```
 
 ### Step 2: Enable the Bundle
 
 ```php
-// app/AppKernel.php
+// app/bundles.php
 
 // ...
-class AppKernel extends Kernel
-{
-    public function registerBundles()
-    {
-        // ...
 
-        if (in_array($this->getEnvironment(), ['dev', 'test'])) {
-            // ...
-
-            if ('dev' === $this->getEnvironment()) {
-                // ...
-                $bundles[] = new EasyCorp\Bundle\EasyDocBundle\EasyDocBundle();
-            }
-        }
-    }
-
+return [
     // ...
-}
+    Liz\Bundle\EasyDocBundle\EasyDocBundle::class => ['dev'=>true, 'test'=>true],
+    // ...
+];
 ```
 
 Usage
